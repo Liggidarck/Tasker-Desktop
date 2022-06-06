@@ -1,8 +1,10 @@
-class MyApplicationToRun {
+package com.george.tasker.desktop.app
+
+class TaskerToRun {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            MyApp().main(args)
+            TakerMain().main(args)
         }
     }
 }
