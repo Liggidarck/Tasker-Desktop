@@ -7,8 +7,17 @@ import tornadofx.SortedFilteredList
 class NotesController : Controller() {
 
     var listOfNotes = SortedFilteredList<Note>()
-    fun addNote(title: String, description: String, dateCreate: String) {
-        listOfNotes.add(Note(title, description, dateCreate))
+    fun addNote(note: Note) {
+        listOfNotes.add(note)
+    }
+
+    fun deleteNote(note: Note) {
+        listOfNotes.remove(note)
+    }
+
+    fun editNote(oldNote: Note, newNote: Note) {
+        listOfNotes.remove(oldNote)
+        listOfNotes.add(newNote)
     }
 
 }
