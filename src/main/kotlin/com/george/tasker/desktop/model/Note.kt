@@ -1,3 +1,3 @@
 package com.george.tasker.desktop.model
 
-data class Note(val title: String, val description: String, val dateCreate: String)
+data class Note(val id: Int, val title: String, val description: String)

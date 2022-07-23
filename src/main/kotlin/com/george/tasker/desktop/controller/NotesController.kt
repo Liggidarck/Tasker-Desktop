@@ -1,5 +1,6 @@
 package com.george.tasker.desktop.controller
 
+import com.george.tasker.desktop.database.NotesRepository
 import com.george.tasker.desktop.model.Note
 import tornadofx.Controller
 import tornadofx.SortedFilteredList
@@ -7,17 +8,30 @@ import tornadofx.SortedFilteredList
 class NotesController : Controller() {
 
     var listOfNotes = SortedFilteredList<Note>()
+    private var repository: NotesRepository = NotesRepository()
+
+    fun openConnection() {
+        repository.open()
+    }
+
+    fun closeConnection() {
+        repository.close()
+    }
+
     fun addNote(note: Note) {
-        listOfNotes.add(note)
+        repository.save(note)
+        getNotes()
     }
-
-    fun deleteNote(note: Note) {
-        listOfNotes.remove(note)
+    fun deleteNote(id: Int) {
+        repository.delete(id)
+        getNotes()
     }
-
-    fun editNote(oldNote: Note, newNote: Note) {
-        listOfNotes.remove(oldNote)
-        listOfNotes.add(newNote)
+    fun editNote(note: Note) {
+        repository.update(note)
+        getNotes()
     }
-
+    fun getNotes() {
+        listOfNotes.clear()
+        listOfNotes.addAll(repository.getAllNotes())
+    }
 }
