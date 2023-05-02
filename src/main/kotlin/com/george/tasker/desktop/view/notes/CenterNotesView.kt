@@ -17,24 +17,27 @@ class CenterNotesView : View() {
     override val root = splitpane {
         orientation = Orientation.HORIZONTAL
         setDividerPosition(0, 0.3)
+
         notesController.openConnection()
         notesController.getNotes()
+
         listview(notesController.listOfNotes) {
             isEditable = true
             cellFormat {
+                var title = it.title
+
+                if(title.isEmpty()){
+                    title = "No title"
+                }
+
                 graphic = cache {
                     vbox {
-                        label(it.title) {
+                        label(title) {
                             style {
                                 fontSize = 20.px
                             }
                         }
                         label(it.description)
-                        button("Удалить").action {
-                            titleTextField.text = ""
-                            descriptionTextArea.text = ""
-                            notesController.deleteNote(it.id)
-                        }
 
                     }
                 }
@@ -49,11 +52,12 @@ class CenterNotesView : View() {
                     titleTextField.text = note.title
                     descriptionTextArea.text = note.description
 
+                    saveButton.text = "Обновить"
                     saveButton.action {
                         val actualNote = Note(newValue.id, titleTextField.text, descriptionTextArea.text)
+                        notesController.editNote(actualNote)
                         titleTextField.text = ""
                         descriptionTextArea.text = ""
-                        notesController.editNote(actualNote)
                     }
                 }
             }
@@ -79,18 +83,18 @@ class CenterNotesView : View() {
                     bottomAnchor = 10.0
                     rightAnchor = 10.0
                 }
-                button("Копировать")
 
                 saveButton = button("Сохранить") {
                     action {
                         if (descriptionTextArea.text.equals("")) {
                             println("description empty")
-                        } else {
-                            val note = Note(0, titleTextField.text, descriptionTextArea.text)
-                            notesController.addNote(note)
-                            titleTextField.text = ""
-                            descriptionTextArea.text = ""
+                            return@action
                         }
+
+                        val note = Note(0, titleTextField.text, descriptionTextArea.text)
+                        notesController.addNote(note)
+                        titleTextField.text = ""
+                        descriptionTextArea.text = ""
                     }
                 }
 

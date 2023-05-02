@@ -2,7 +2,7 @@ package com.george.tasker.desktop.view.notes
 
 import tornadofx.*
 
-class BottomNoteView: View() {
+class BottomNoteView : View() {
     override var root = hbox {
         button("Корзина") {
             hboxConstraints {
@@ -24,4 +24,5 @@ class BottomNoteView: View() {
             println("Обновление данных с сервера...")
         }
     }
+
 }
